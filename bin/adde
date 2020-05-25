@@ -1,0 +1,31 @@
+package com.No_N_Name.jce.provider.RSA;
+
+import java.math.BigInteger;
+import java.security.SecureRandom;
+
+import com.No_N_Name.jce.provider.KeyGenerationParameters;
+
+public class RSAKeyGenerationParameters extends KeyGenerationParameters{
+	private BigInteger publicExponent;			//公开的指数
+	private int certainty;						//确定性
+	
+	public RSAKeyGenerationParameters(BigInteger publicExponent, SecureRandom random, int strength, int certainty) {
+		//构造函数
+		super(random, strength);
+		if (strength < 12) {
+			throw new IllegalArgumentException("key strength too small");
+		} else if (!publicExponent.testBit(0)) {
+			throw new IllegalArgumentException("public exponent cannot be even");
+		} else {
+			this.publicExponent = publicExponent;
+			this.certainty = certainty;
+		}
+	}
+	
+	public BigInteger getPublicExponent() {
+		return this.publicExponent;
+	}
+	public int getCertainty() {
+		return this.certainty;
+	}
+}
